@@ -23,7 +23,14 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    .album-overlay::-webkit-scrollbar { display: none; }
 
     body {
       background: var(--black);
@@ -31,6 +38,7 @@
       font-family: 'DM Sans', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
+      -ms-overflow-style: none;
     }
 
     /* GRAIN OVERLAY */
@@ -48,7 +56,7 @@
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
+      z-index: 200;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -57,7 +65,7 @@
       backdrop-filter: blur(2px);
     }
 
-    .nav-logo { 
+    .nav-logo {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 2rem;
       letter-spacing: 0.15em;
@@ -122,7 +130,6 @@
       z-index: 0;
     }
 
-    /* Decorative film strip lines */
     .hero-bg::after {
       content: '';
       position: absolute;
@@ -165,14 +172,6 @@
       animation: fadeUp 1s 0.1s ease both;
     }
 
-    .hero-title em {
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
-      color: var(--gold);
-      font-size: 0.75em;
-      display: block;
-    }
-
     .hero-sub {
       margin-top: 2rem;
       max-width: 420px;
@@ -208,10 +207,7 @@
       transition: background 0.2s, transform 0.2s;
     }
 
-    .btn-primary:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
 
     .btn-ghost {
       font-size: 0.8rem;
@@ -224,15 +220,11 @@
       transition: color 0.2s, border-color 0.2s;
     }
 
-    .btn-ghost:hover {
-      color: var(--gold);
-      border-color: var(--gold);
-    }
+    .btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
 
     .hero-scroll {
       position: absolute;
-      bottom: 2.5rem;
-      right: 4rem;
+      bottom: 2.5rem; right: 4rem;
       font-size: 0.7rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
@@ -253,45 +245,10 @@
       background: linear-gradient(to bottom, var(--muted), transparent);
     }
 
-    /* MARQUEE */
-    .marquee-wrap {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 1.1rem 0;
-      overflow: hidden;
-      background: var(--dark);
-    }
 
-    .marquee-track {
-      display: flex;
-      gap: 0;
-      animation: marquee 22s linear infinite;
-      width: max-content;
-    }
 
-    .marquee-item {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 0 3rem;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .marquee-item::after {
-      content: '◆';
-      color: var(--gold);
-      font-size: 0.5rem;
-    }
-
-    /* SERVICES */
-    .section {
-      padding: 7rem 4rem;
-    }
+    /* SHARED */
+    .section { padding: 7rem 4rem; }
 
     .section-label {
       font-size: 0.7rem;
@@ -304,13 +261,7 @@
       gap: 1rem;
     }
 
-    .section-label::before {
-      content: '';
-      display: block;
-      width: 30px;
-      height: 1px;
-      background: var(--gold);
-    }
+    .section-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
 
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
@@ -320,6 +271,304 @@
       line-height: 1;
       margin-bottom: 4rem;
     }
+
+    /* WORK */
+    #work { background: var(--dark); }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      padding: 7rem 4rem 0;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+      padding: 0 4rem 7rem;
+    }
+
+    .work-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--card);
+    }
+
+    .work-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; }
+    .work-item:nth-child(2) { grid-column: 8 / 13; grid-row: 1; }
+    .work-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
+    .work-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; }
+    .work-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; }
+
+    .work-thumb { width: 100%; aspect-ratio: 16/10; overflow: hidden; position: relative; }
+    .work-item:nth-child(1) .work-thumb { aspect-ratio: 16/9; }
+    .work-item:nth-child(2) .work-thumb { aspect-ratio: 4/5; }
+
+    .work-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .work-item:hover .work-thumb img { transform: scale(1.04); }
+
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.92) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .work-item:hover .work-overlay { opacity: 1; }
+
+    .work-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+
+    .work-title-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+
+    .work-view-all {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .work-view-all::after { content: '→'; }
+
+    /* ALBUM LIGHTBOX */
+    .album-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.97);
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .album-overlay.open { opacity: 1; pointer-events: all; }
+
+    .album-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .album-label-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+
+    .album-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+
+    .album-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .album-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    .album-grid {
+      padding: 2rem 3rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .album-photo { overflow: hidden; cursor: zoom-in; background: var(--card); }
+
+    .album-photo img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .album-photo:hover img { transform: scale(1.03); }
+
+    /* PHOTO VIEWER */
+    .photo-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      background: rgba(5,5,5,0.98);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .photo-viewer.open { opacity: 1; pointer-events: all; }
+
+    .photo-viewer img {
+      max-width: 92vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .photo-viewer-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .photo-viewer-close:hover { color: var(--gold); }
+
+    .photo-viewer-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1.5rem;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .photo-viewer-nav:hover { border-color: var(--gold); color: var(--gold); }
+    .photo-viewer-prev { left: 1.5rem; }
+    .photo-viewer-next { right: 1.5rem; }
+
+    /* ABOUT ME */
+    #about {
+      padding: 7rem 4rem;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .about-headshot-wrap { position: relative; }
+
+    .about-headshot {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--card);
+    }
+
+    .about-headshot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .about-headshot-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      border: 1px dashed var(--border);
+    }
+
+    .about-headshot-placeholder span {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      padding: 0 2rem;
+      line-height: 1.8;
+    }
+
+    .about-frame-accent {
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      width: 60%; height: 60%;
+      border-right: 1px solid rgba(201,168,76,0.2);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      pointer-events: none;
+    }
+
+    .about-text {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text strong { color: var(--white); font-weight: 400; }
+
+    .about-quote {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.45rem;
+      color: var(--light);
+      line-height: 1.45;
+      border-left: 2px solid var(--gold);
+      padding-left: 1.5rem;
+      margin: 2.5rem 0;
+    }
+
+    /* SERVICES */
+    #services { background: var(--dark); }
 
     .services-grid {
       display: grid;
@@ -341,8 +590,7 @@
       content: '';
       position: absolute;
       bottom: 0; left: 0;
-      height: 2px;
-      width: 0;
+      height: 2px; width: 0;
       background: var(--gold);
       transition: width 0.4s ease;
     }
@@ -368,189 +616,11 @@
       margin-bottom: 0.75rem;
     }
 
-    .service-desc {
-      font-size: 0.9rem;
-      line-height: 1.65;
-      color: var(--muted);
-    }
-
-    /* WORK */
-    #work { background: var(--dark); }
-
-    .work-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 3rem;
-    }
-
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: auto;
-      gap: 1rem;
-    }
-
-    .work-item {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      background: var(--card);
-    }
-
-    .work-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; }
-    .work-item:nth-child(2) { grid-column: 8 / 13; grid-row: 1; }
-    .work-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
-    .work-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; }
-    .work-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; }
-
-    .work-thumb {
-      width: 100%;
-      aspect-ratio: 16/10;
-      background: var(--card);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.6s ease;
-    }
-
-    .work-item:nth-child(1) .work-thumb { aspect-ratio: 16/9; }
-    .work-item:nth-child(2) .work-thumb { aspect-ratio: 4/5; }
-
-    .work-item:hover .work-thumb { transform: scale(1.04); }
-
-    /* Placeholder visual for each work item */
-    .work-thumb-inner {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .work-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .work-placeholder svg {
-      opacity: 0.12;
-    }
-
-    .work-item-1 .work-thumb { background: linear-gradient(135deg, #1a1510 0%, #0d0d0d 100%); }
-    .work-item-2 .work-thumb { background: linear-gradient(135deg, #0f1218 0%, #0d0d0d 100%); }
-    .work-item-3 .work-thumb { background: linear-gradient(135deg, #13100c 0%, #0d0d0d 100%); }
-    .work-item-4 .work-thumb { background: linear-gradient(135deg, #0c1010 0%, #0d0d0d 100%); }
-    .work-item-5 .work-thumb { background: linear-gradient(135deg, #100f18 0%, #0d0d0d 100%); }
-
-    .work-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, transparent 50%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .work-item:hover .work-overlay { opacity: 1; }
-
-    .work-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.3rem;
-    }
-
-    .work-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem;
-      color: var(--white);
-    }
-
-    /* ABOUT */
-    #about {
-      padding: 7rem 4rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-
-    .about-visual {
-      position: relative;
-      aspect-ratio: 4/5;
-      background: var(--card);
-      overflow: hidden;
-    }
-
-    .about-visual-inner {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, #1c1810 0%, #0d0d0d 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .about-frame {
-      position: absolute;
-      top: 1.5rem; left: 1.5rem;
-      right: -1rem; bottom: -1rem;
-      border: 1px solid rgba(201,168,76,0.2);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .about-content { }
-
-    .about-text {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-
-    .about-text strong {
-      color: var(--white);
-      font-weight: 400;
-    }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-top: 3rem;
-      padding-top: 3rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.8rem;
-      color: var(--gold);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.4rem;
-    }
+    .service-desc { font-size: 0.9rem; line-height: 1.65; color: var(--muted); }
 
     /* SOCIALS */
     #connect {
-      background: var(--dark);
+      background: var(--black);
       padding: 5rem 4rem;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
@@ -563,8 +633,6 @@
       gap: 4rem;
     }
 
-    .connect-text { }
-
     .connect-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(2rem, 4vw, 4rem);
@@ -573,18 +641,9 @@
       line-height: 1;
     }
 
-    .connect-sub {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-top: 0.75rem;
-    }
+    .connect-sub { font-size: 0.95rem; color: var(--muted); margin-top: 0.75rem; }
 
-    .socials-list {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
+    .socials-list { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-end; }
 
     .social-link {
       display: flex;
@@ -600,57 +659,28 @@
       transition: border-color 0.2s, color 0.2s, background 0.2s;
     }
 
-    .social-link:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(201,168,76,0.04);
-    }
-
-    .social-icon {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.04); }
+    .social-icon { width: 18px; height: 18px; fill: currentColor; }
 
     /* CONTACT */
     #contact { padding: 7rem 4rem; }
 
-    .contact-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-    }
-
-    .contact-info { }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
 
     .contact-tagline {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: var(--light);
-      line-height: 1.4;
+      line-height: 1.5;
       margin-bottom: 2rem;
     }
 
-    .contact-detail {
-      margin-bottom: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .contact-detail a {
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
+    .contact-detail { margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--muted); }
+    .contact-detail a { color: var(--text); text-decoration: none; transition: color 0.2s; }
     .contact-detail a:hover { color: var(--gold); }
 
-    .contact-form { }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
+    .form-group { margin-bottom: 1.5rem; }
 
     .form-label {
       display: block;
@@ -661,8 +691,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .form-input,
-    .form-textarea {
+    .form-input, .form-textarea {
       width: 100%;
       background: var(--card);
       border: 1px solid var(--border);
@@ -675,41 +704,9 @@
       -webkit-appearance: none;
     }
 
-    .form-input:focus,
-    .form-textarea:focus {
-      border-color: var(--gold);
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 140px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .form-submit {
-      width: 100%;
-      padding: 1rem;
-      background: var(--gold);
-      color: var(--black);
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .form-submit:hover {
-      background: var(--gold-light);
-      transform: translateY(-1px);
-    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
+    .form-textarea { resize: vertical; min-height: 140px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
     .form-select {
       width: 100%;
@@ -727,6 +724,23 @@
 
     .form-select:focus { border-color: var(--gold); }
 
+    .form-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
     /* FOOTER */
     footer {
       padding: 3rem 4rem;
@@ -736,24 +750,10 @@
       align-items: center;
     }
 
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 0.15em;
-      color: var(--white);
-    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.15em; color: var(--white); }
+    .footer-copy { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; }
 
-    .footer-copy {
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
 
     .footer-links a {
       font-size: 0.75rem;
@@ -772,26 +772,19 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
     /* MOBILE */
     @media (max-width: 900px) {
       nav { padding: 1.2rem 2rem; }
       .nav-links { display: none; }
       .hero { padding: 6rem 2rem 4rem; }
-      .section { padding: 5rem 2rem; }
-      .services-grid { grid-template-columns: 1fr; }
-      .work-item:nth-child(1),
-      .work-item:nth-child(2),
-      .work-item:nth-child(3),
-      .work-item:nth-child(4),
-      .work-item:nth-child(5) { grid-column: 1 / -1; grid-row: auto; }
-      .work-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .work-header { padding: 5rem 2rem 0; }
+      .work-grid { grid-template-columns: 1fr; padding: 0 2rem 5rem; gap: 0.75rem; }
+      .work-item:nth-child(n) { grid-column: 1 / -1; grid-row: auto; }
       .work-thumb { aspect-ratio: 16/9 !important; }
       #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+      .about-headshot-wrap { max-width: 280px; }
+      .section { padding: 5rem 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
       .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
       .form-row { grid-template-columns: 1fr; }
       .connect-inner { flex-direction: column; align-items: flex-start; }
@@ -799,6 +792,9 @@
       footer { flex-direction: column; gap: 1.5rem; text-align: center; }
       #connect { padding: 4rem 2rem; }
       #contact { padding: 5rem 2rem; }
+      .album-grid { padding: 1.5rem; grid-template-columns: 1fr 1fr; }
+      .album-header { padding: 1.2rem 1.5rem; }
+      .photo-viewer-nav { display: none; }
     }
   </style>
 </head>
@@ -808,10 +804,10 @@
   <nav>
     <a href="#" class="nav-logo"><span class="logo-ji">Ji</span><span class="logo-m">m</span>edia</a>
     <ul class="nav-links">
-      <li><a href="#services">Services</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Hire Me</a></li>
     </ul>
   </nav>
 
@@ -821,54 +817,148 @@
       <img src="media/DSC03771%20Edited%205%20Edited.jpg" alt=""
            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0.28;pointer-events:none;" />
     </div>
-    <div class="hero-eyebrow">Media Production &amp; Creative Services</div>
+    <div class="hero-eyebrow">Film &amp; Photography — Based in Illinois</div>
     <h1 class="hero-title">
       <span class="logo-ji">Ji</span><span class="logo-m hero-m">m</span>edia
     </h1>
     <p class="hero-sub">
-      Film. Photography. Sound. From concert stages to scripted stories — we capture what matters and make it unforgettable.
+      I shoot bands, cover shows, tell stories on film, and make things look the way they feel. This is what I do.
     </p>
     <div class="hero-cta">
-      <a href="#contact" class="btn-primary">Hire Us</a>
-      <a href="#work" class="btn-ghost">View Work</a>
+      <a href="#work" class="btn-primary">See the Work</a>
+      <a href="#contact" class="btn-ghost">Hire Me</a>
     </div>
     <div class="hero-scroll">Scroll</div>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <div class="marquee-item">Band Photography</div>
-      <div class="marquee-item">Film Production</div>
-      <div class="marquee-item">Live Event Coverage</div>
-      <div class="marquee-item">Script Writing</div>
-      <div class="marquee-item">Video Editing</div>
-      <div class="marquee-item">Media Production</div>
-      <div class="marquee-item">Creative Direction</div>
-      <div class="marquee-item">Band Photography</div>
-      <div class="marquee-item">Film Production</div>
-      <div class="marquee-item">Live Event Coverage</div>
-      <div class="marquee-item">Script Writing</div>
-      <div class="marquee-item">Video Editing</div>
-      <div class="marquee-item">Media Production</div>
-      <div class="marquee-item">Creative Direction</div>
-    </div>
-  </div>
 
-  <!-- SERVICES -->
+
+  <!-- ===== WORK ===== -->
+  <section id="work">
+    <div class="work-header">
+      <div>
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title" style="margin-bottom:0;">Selected Work</h2>
+      </div>
+      <a href="#contact" class="btn-ghost">Work with me →</a>
+    </div>
+    <div class="work-grid">
+
+      <div class="work-item work-item-1" onclick="openAlbum('album1')">
+        <div class="work-thumb">
+          <img src="media/DSC04403%20Edited%2019%20Edited.jpg" alt="Live Show" style="object-position:center 40%;" />
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Live Event</div>
+          <div class="work-title-text">Live Coverage</div>
+          <div class="work-view-all">View album</div>
+        </div>
+      </div>
+
+      <div class="work-item work-item-2" onclick="openAlbum('album2')">
+        <div class="work-thumb">
+          <img src="media/DSC04360%20Edited%2018%20Edited.jpg" alt="Concert Photography" style="object-position:center top;" />
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Concert Photography</div>
+          <div class="work-title-text">On Stage</div>
+          <div class="work-view-all">View album</div>
+        </div>
+      </div>
+
+      <div class="work-item work-item-3" onclick="openAlbum('album3')">
+        <div class="work-thumb">
+          <img src="media/DSC06572%20Edited.JPG" alt="Band Photography" />
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Band Photography</div>
+          <div class="work-title-text">Full Band</div>
+          <div class="work-view-all">View album</div>
+        </div>
+      </div>
+
+      <div class="work-item work-item-4" onclick="openAlbum('album4')">
+        <div class="work-thumb">
+          <img src="media/DSC05389.jpg" alt="Live Performance" />
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Live Performance</div>
+          <div class="work-title-text">In the Moment</div>
+          <div class="work-view-all">View album</div>
+        </div>
+      </div>
+
+      <div class="work-item work-item-5" onclick="openAlbum('album5')">
+        <div class="work-thumb">
+          <img src="media/DSC07471%20Edited.JPG" alt="Editorial Photography" />
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Editorial</div>
+          <div class="work-title-text">Behind the Show</div>
+          <div class="work-view-all">View album</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ME ===== -->
+  <section id="about">
+    <div class="about-headshot-wrap">
+      <div class="about-headshot">
+        <!--
+          ============================================================
+          HEADSHOT PHOTO — Replace this placeholder with:
+          <img src="media/your-headshot.jpg" alt="Jim" />
+          ============================================================
+        -->
+        <div class="about-headshot-placeholder">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="18" r="8" stroke="#444" stroke-width="1.5"/>
+            <path d="M8 42c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="#444" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>Add headshot here<br/>See comment in code</span>
+        </div>
+      </div>
+      <div class="about-frame-accent"></div>
+    </div>
+
+    <div class="about-content">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem;">Hey, I'm Jim.</h2>
+
+      <p class="about-text">
+        I'm a filmmaker and photographer based in Illinois with a thing for live music and the stories that happen when the lights go down. I've been shooting bands and covering shows for years, and I still get the same rush every time a set kicks off.
+      </p>
+
+      <div class="about-quote">
+        "I don't just point a camera at something — I try to find the frame that makes you feel like you were there."
+      </div>
+
+      <p class="about-text">
+        Beyond concert photography, I work across the full spectrum of media production — scripting, directing, editing, color grading, and everything in between. Big venue or basement show, I show up ready to make something worth keeping.
+      </p>
+
+      <p class="about-text">
+        I work independently, which means you get <strong>one person who genuinely cares</strong> about your project from the first conversation to the final delivery. No middlemen, no cookie-cutter packages — just me, my gear, and a commitment to getting it right.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
   <section id="services" class="section">
-    <div class="section-label">What We Do</div>
+    <div class="section-label">What I Do</div>
     <h2 class="section-title">Services</h2>
     <div class="services-grid">
       <div class="service-card">
         <div class="service-num">01</div>
         <div class="service-name">Film & Video</div>
-        <p class="service-desc">Short films, music videos, documentaries, and branded content. From concept to final cut — we handle it all with a cinematic eye.</p>
+        <p class="service-desc">Short films, music videos, documentaries, and branded content. From concept to final cut — I handle it all with a cinematic eye.</p>
       </div>
       <div class="service-card">
         <div class="service-num">02</div>
         <div class="service-name">Photography</div>
-        <p class="service-desc">Concert and live event photography, band press shots, promotional imagery, and editorial shoots that capture real energy.</p>
+        <p class="service-desc">Concert and live event photography, band press shots, promotional imagery, and editorial work that captures real energy.</p>
       </div>
       <div class="service-card">
         <div class="service-num">03</div>
@@ -883,163 +973,55 @@
       <div class="service-card">
         <div class="service-num">05</div>
         <div class="service-name">Media Production</div>
-        <p class="service-desc">Full-service production coordination — gear, crew, scheduling, and on-set direction for projects of any size.</p>
+        <p class="service-desc">Full-service production coordination — gear, scheduling, and on-set direction for projects of any size.</p>
       </div>
       <div class="service-card">
         <div class="service-num">06</div>
         <div class="service-name">Creative Direction</div>
-        <p class="service-desc">Visual identity, art direction, and creative consulting for artists and brands who need a distinct, cohesive aesthetic.</p>
+        <p class="service-desc">Visual identity, art direction, and creative consulting for artists and bands who need a distinct, cohesive aesthetic.</p>
       </div>
     </div>
   </section>
 
-  <!-- WORK -->
-  <section id="work" class="section" style="padding-top:0;">
-    <div class="work-header">
-      <div>
-        <div class="section-label">Portfolio</div>
-        <h2 class="section-title" style="margin-bottom:0;">Selected Work</h2>
-      </div>
-      <a href="#contact" class="btn-ghost">Commission a project →</a>
-    </div>
-    <div class="work-grid">
-      <div class="work-item work-item-1">
-        <div class="work-thumb">
-          <img src="media/DSC04403%20Edited%2019%20Edited.jpg" alt="Live Show"
-               style="width:100%;height:100%;object-fit:cover;object-position:center 40%;" />
-        </div>
-        <div class="work-overlay">
-          <div class="work-label">Live Event</div>
-          <div class="work-title">Live Coverage</div>
-        </div>
-      </div>
-      <div class="work-item work-item-2">
-        <div class="work-thumb">
-          <img src="media/DSC04360%20Edited%2018%20Edited.jpg" alt="Concert Photography"
-               style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
-        </div>
-        <div class="work-overlay">
-          <div class="work-label">Concert Photography</div>
-          <div class="work-title">On Stage</div>
-        </div>
-      </div>
-      <div class="work-item work-item-3">
-        <div class="work-thumb">
-          <img src="media/DSC06572%20Edited.JPG" alt="Band Photography"
-               style="width:100%;height:100%;object-fit:cover;object-position:center;" />
-        </div>
-        <div class="work-overlay">
-          <div class="work-label">Band Photography</div>
-          <div class="work-title">Full Band</div>
-        </div>
-      </div>
-      <div class="work-item work-item-4">
-        <div class="work-thumb">
-          <img src="media/DSC05389.jpg" alt="Live Performance"
-               style="width:100%;height:100%;object-fit:cover;object-position:center;" />
-        </div>
-        <div class="work-overlay">
-          <div class="work-label">Live Performance</div>
-          <div class="work-title">In the Moment</div>
-        </div>
-      </div>
-      <div class="work-item work-item-5">
-        <div class="work-thumb">
-          <img src="media/DSC07471%20Edited.JPG" alt="Editorial Photography"
-               style="width:100%;height:100%;object-fit:cover;object-position:center;" />
-        </div>
-        <div class="work-overlay">
-          <div class="work-label">Editorial</div>
-          <div class="work-title">Behind the Show</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about-visual">
-      <img src="media/DSC05142%20Edited%209%20Edited.jpg" alt="Jim"
-           style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
-      <div class="about-frame"></div>
-    </div>
-    <div class="about-content">
-      <div class="section-label">About</div>
-      <h2 class="section-title" style="margin-bottom:1.5rem;">The Vision<br/>Behind the Lens</h2>
-      <p class="about-text">
-        Jimedia is an independent media production outfit built on a simple idea: <strong>great stories deserve great visuals.</strong> We work with bands, artists, and creative businesses to produce photography, film, and media that actually represents who they are.
-      </p>
-      <p class="about-text">
-        From the pit at a sold-out show to a quiet studio session — we bring the same level of craft and intention to every frame. <strong>No cookie-cutter packages. No corporate polish.</strong> Just honest, compelling work made with people who care about it.
-      </p>
-      <div class="about-stats">
-        <div>
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Frames Shot</div>
-        </div>
-        <div>
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Independent</div>
-        </div>
-        <div>
-          <div class="stat-num">1</div>
-          <div class="stat-label">Vision</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOCIALS / CONNECT -->
+  <!-- ===== SOCIALS ===== -->
   <section id="connect">
     <div class="connect-inner">
-      <div class="connect-text">
+      <div>
         <h2 class="connect-title">Follow the Work</h2>
-        <p class="connect-sub">Stay up to date on projects, behind-the-scenes, and new releases.</p>
+        <p class="connect-sub">Behind-the-scenes, new projects, and everything in between.</p>
       </div>
       <div class="socials-list">
-        <!-- Instagram -->
         <a href="#" class="social-link">
-          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
           Instagram
         </a>
-        <!-- YouTube -->
         <a href="#" class="social-link">
-          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-          </svg>
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
           YouTube
         </a>
-        <!-- TikTok -->
         <a href="#" class="social-link">
-          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-          </svg>
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
           TikTok
         </a>
-        <!-- Vimeo -->
         <a href="#" class="social-link">
-          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 12.4C4.603 9.813 3.834 8.516 3.01 8.516c-.179 0-.806.378-1.881 1.132L0 8.477c1.185-1.044 2.351-2.084 3.501-3.128C5.08 3.784 6.27 3.019 7.02 2.947c1.307-.13 2.135.76 2.467 2.665.331 1.979.572 3.184.679 3.568.376 1.732.797 2.595 1.258 2.595.353 0 .898-.551 1.618-1.662.72-1.111 1.109-1.952 1.145-2.505.088-1.009-.297-1.519-1.09-1.519-.39 0-.771.09-1.118.274 1.104-3.661 3.176-5.44 6.299-5.34 2.25.06 3.317 1.513 3.199 4.393z"/>
-          </svg>
+          <svg class="social-icon" viewBox="0 0 24 24"><path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 12.4C4.603 9.813 3.834 8.516 3.01 8.516c-.179 0-.806.378-1.881 1.132L0 8.477c1.185-1.044 2.351-2.084 3.501-3.128C5.08 3.784 6.27 3.019 7.02 2.947c1.307-.13 2.135.76 2.467 2.665.331 1.979.572 3.184.679 3.568.376 1.732.797 2.595 1.258 2.595.353 0 .898-.551 1.618-1.662.72-1.111 1.109-1.952 1.145-2.505.088-1.009-.297-1.519-1.09-1.519-.39 0-.771.09-1.118.274 1.104-3.661 3.176-5.44 6.299-5.34 2.25.06 3.317 1.513 3.199 4.393z"/></svg>
           Vimeo
         </a>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ===== HIRE ME / CONTACT ===== -->
   <section id="contact">
     <div class="contact-wrap">
       <div class="contact-info">
-        <div class="section-label">Get in Touch</div>
+        <div class="section-label">Hire Me</div>
         <h2 class="section-title" style="margin-bottom:1.5rem;">Let's Make<br/>Something</h2>
-        <p class="contact-tagline">"Got a project, a vision, or just an idea? Let's talk about what we can build together."</p>
-        <p class="contact-detail">Email: <a href="/cdn-cgi/l/email-protection#472f222b2b28072d2e2a22232e266924282a"><span class="__cf_email__" data-cfemail="d2bab7bebebd92b8bbbfb7b6bbb3fcb1bdbf">[email&#160;protected]</span></a></p>
-        <p class="contact-detail">Based in: <span style="color:var(--text)">Your City, State</span></p>
+        <p class="contact-tagline">Got a show coming up, a project in mind, or just an idea you want to talk through? Reach out — I'd love to hear about it.</p>
+        <p class="contact-detail">Email: <a href="mailto:hello@jimedia.com">hello@jimedia.com</a></p>
+        <p class="contact-detail">Based in: <span style="color:var(--text)">Illinois</span></p>
         <p class="contact-detail" style="margin-top:1.5rem; font-size:0.85rem; line-height:1.6;">
-          Available for local and travel-based projects. Typical response time within 48 hours.
+          Available for local shoots and willing to travel. I'll usually get back to you within a day or two.
         </p>
       </div>
       <div class="contact-form">
@@ -1058,9 +1040,9 @@
           <input type="email" class="form-input" placeholder="your@email.com" />
         </div>
         <div class="form-group">
-          <label class="form-label">Service</label>
+          <label class="form-label">What do you need?</label>
           <select class="form-select">
-            <option value="">What are you looking for?</option>
+            <option value="">Pick a service</option>
             <option>Film / Video Production</option>
             <option>Photography</option>
             <option>Video Editing / Post</option>
@@ -1071,10 +1053,10 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Tell us about the project</label>
-          <textarea class="form-textarea" placeholder="What are you working on? Budget, timeline, vision — share what you've got."></textarea>
+          <label class="form-label">Tell me about it</label>
+          <textarea class="form-textarea" placeholder="What are you working on? Dates, location, vision — whatever you've got, I want to hear it."></textarea>
         </div>
-        <button class="form-submit">Send Message</button>
+        <button class="form-submit">Send It</button>
       </div>
     </div>
   </section>
@@ -1083,7 +1065,205 @@
   <footer>
     <div class="footer-logo"><span class="logo-ji">Ji</span><span class="logo-m">m</span>edia</div>
     <ul class="footer-links">
-      <li><a href="#services">Services</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#contact
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Hire Me</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Jimedia. All rights reserved.</div>
+  </footer>
+
+  <!-- ============================================================
+       ALBUM LIGHTBOXES
+       To add photos to an album: copy a .album-photo block and
+       update the src. To add a new album: copy an entire
+       #albumN block, give it a new id, and add a work-item
+       that calls openAlbum('yourNewId').
+       ============================================================ -->
+
+  <!-- ALBUM 1: Live Coverage -->
+  <div id="album1" class="album-overlay">
+    <div class="album-header">
+      <div>
+        <div class="album-label-text">Live Event</div>
+        <div class="album-name">Live Coverage</div>
+      </div>
+      <button class="album-close" onclick="closeAlbum('album1')">✕ Close</button>
+    </div>
+    <div class="album-grid">
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC04403%20Edited%2019%20Edited.jpg" alt="Live Show" style="object-position:center 40%;" />
+      </div>
+      <!--
+        ADD MORE PHOTOS FROM THIS SHOOT:
+        <div class="album-photo" onclick="openPhoto(this)">
+          <img src="media/your-photo.jpg" alt="Description" />
+        </div>
+      -->
+    </div>
+  </div>
+
+  <!-- ALBUM 2: On Stage -->
+  <div id="album2" class="album-overlay">
+    <div class="album-header">
+      <div>
+        <div class="album-label-text">Concert Photography</div>
+        <div class="album-name">On Stage</div>
+      </div>
+      <button class="album-close" onclick="closeAlbum('album2')">✕ Close</button>
+    </div>
+    <div class="album-grid">
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC04360%20Edited%2018%20Edited.jpg" alt="Concert Photography" style="object-position:center top;" />
+      </div>
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC07567%20Edited.jpg" alt="Concert Photography" />
+      </div>
+      <!--
+        ADD MORE PHOTOS FROM THIS SHOOT:
+        <div class="album-photo" onclick="openPhoto(this)">
+          <img src="media/your-photo.jpg" alt="Description" />
+        </div>
+      -->
+    </div>
+  </div>
+
+  <!-- ALBUM 3: Full Band -->
+  <div id="album3" class="album-overlay">
+    <div class="album-header">
+      <div>
+        <div class="album-label-text">Band Photography</div>
+        <div class="album-name">Full Band</div>
+      </div>
+      <button class="album-close" onclick="closeAlbum('album3')">✕ Close</button>
+    </div>
+    <div class="album-grid">
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC06572%20Edited.JPG" alt="Band Photography" />
+      </div>
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC05160.jpg" alt="Band Photography" />
+      </div>
+      <!--
+        ADD MORE PHOTOS FROM THIS SHOOT:
+        <div class="album-photo" onclick="openPhoto(this)">
+          <img src="media/your-photo.jpg" alt="Description" />
+        </div>
+      -->
+    </div>
+  </div>
+
+  <!-- ALBUM 4: In the Moment -->
+  <div id="album4" class="album-overlay">
+    <div class="album-header">
+      <div>
+        <div class="album-label-text">Live Performance</div>
+        <div class="album-name">In the Moment</div>
+      </div>
+      <button class="album-close" onclick="closeAlbum('album4')">✕ Close</button>
+    </div>
+    <div class="album-grid">
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC05389.jpg" alt="Live Performance" />
+      </div>
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC05466.jpg" alt="Live Performance" />
+      </div>
+      <!--
+        ADD MORE PHOTOS FROM THIS SHOOT:
+        <div class="album-photo" onclick="openPhoto(this)">
+          <img src="media/your-photo.jpg" alt="Description" />
+        </div>
+      -->
+    </div>
+  </div>
+
+  <!-- ALBUM 5: Behind the Show -->
+  <div id="album5" class="album-overlay">
+    <div class="album-header">
+      <div>
+        <div class="album-label-text">Editorial</div>
+        <div class="album-name">Behind the Show</div>
+      </div>
+      <button class="album-close" onclick="closeAlbum('album5')">✕ Close</button>
+    </div>
+    <div class="album-grid">
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC07471%20Edited.JPG" alt="Editorial" />
+      </div>
+      <div class="album-photo" onclick="openPhoto(this)">
+        <img src="media/DSC05142%20Edited%209%20Edited.jpg" alt="Editorial" />
+      </div>
+      <!--
+        ADD MORE PHOTOS FROM THIS SHOOT:
+        <div class="album-photo" onclick="openPhoto(this)">
+          <img src="media/your-photo.jpg" alt="Description" />
+        </div>
+      -->
+    </div>
+  </div>
+
+  <!-- FULL-SIZE PHOTO VIEWER -->
+  <div id="photoViewer" class="photo-viewer">
+    <button class="photo-viewer-close" onclick="closePhoto()">✕</button>
+    <button class="photo-viewer-nav photo-viewer-prev" onclick="navPhoto(-1)">‹</button>
+    <img id="photoViewerImg" src="" alt="" />
+    <button class="photo-viewer-nav photo-viewer-next" onclick="navPhoto(1)">›</button>
+  </div>
+
+  <script>
+    function openAlbum(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAlbum(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close album on backdrop click
+    document.querySelectorAll('.album-overlay').forEach(overlay => {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === this) closeAlbum(this.id);
+      });
+    });
+
+    // Escape key closes overlays
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.album-overlay.open').forEach(o => closeAlbum(o.id));
+        closePhoto();
+      }
+    });
+
+    // Photo viewer
+    let currentPhotos = [];
+    let currentPhotoIndex = 0;
+
+    function openPhoto(el) {
+      const img = el.querySelector('img');
+      const album = el.closest('.album-overlay');
+      currentPhotos = Array.from(album.querySelectorAll('.album-photo img'));
+      currentPhotoIndex = currentPhotos.indexOf(img);
+      document.getElementById('photoViewerImg').src = img.src;
+      document.getElementById('photoViewer').classList.add('open');
+    }
+
+    function closePhoto() {
+      document.getElementById('photoViewer').classList.remove('open');
+      document.getElementById('photoViewerImg').src = '';
+    }
+
+    function navPhoto(dir) {
+      currentPhotoIndex = (currentPhotoIndex + dir + currentPhotos.length) % currentPhotos.length;
+      document.getElementById('photoViewerImg').src = currentPhotos[currentPhotoIndex].src;
+    }
+
+    document.getElementById('photoViewer').addEventListener('click', function(e) {
+      if (e.target === this) closePhoto();
+    });
+  </script>
+
+</body>
+</html>
