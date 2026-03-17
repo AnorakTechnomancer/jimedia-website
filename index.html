@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimedia — Film. Photo. Sound.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0d0d0d;
+      --dark: #141414;
+      --card: #1a1a1a;
+      --border: #2a2a2a;
+      --muted: #555;
+      --text: #c8c2b8;
+      --light: #e8e2d8;
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --white: #f2ede6;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: linear-gradient(to bottom, rgba(13,13,13,0.95) 0%, transparent 100%);
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-logo { 
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-logo .logo-ji,
+    .footer-logo .logo-ji,
+    .hero-title .logo-ji { color: var(--gold); }
+
+    .nav-logo .logo-m,
+    .footer-logo .logo-m {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--white) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-m {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--white) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 6rem 4rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,168,76,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+        linear-gradient(160deg, #141414 0%, #0d0d0d 100%);
+      z-index: 0;
+    }
+
+    /* Decorative film strip lines */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 15%;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.15) 30%, rgba(201,168,76,0.08) 70%, transparent);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 14vw, 14rem);
+      line-height: 0.9;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 1s 0.1s ease both;
+    }
+
+    .hero-title em {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.75em;
+      display: block;
+    }
+
+    .hero-sub {
+      margin-top: 2rem;
+      max-width: 420px;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-ghost:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 4rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 1;
+      animation: fadeUp 1.5s 0.5s ease both;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 0;
+      overflow: hidden;
+      background: var(--dark);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 3rem;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .marquee-item::after {
+      content: '◆';
+      color: var(--gold);
+      font-size: 0.5rem;
+    }
+
+    /* SERVICES */
+    .section {
+      padding: 7rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      color: var(--white);
+      letter-spacing: 0.05em;
+      line-height: 1;
+      margin-bottom: 4rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      background: var(--dark);
+      padding: 3rem 2.5rem;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--gold);
+      transition: width 0.4s ease;
+    }
+
+    .service-card:hover { background: #1e1e1e; }
+    .service-card:hover::before { width: 100%; }
+
+    .service-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .service-card:hover .service-num { color: rgba(201,168,76,0.12); }
+
+    .service-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--light);
+      margin-bottom: 0.75rem;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    /* WORK */
+    #work { background: var(--dark); }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+    }
+
+    .work-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--card);
+    }
+
+    .work-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; }
+    .work-item:nth-child(2) { grid-column: 8 / 13; grid-row: 1; }
+    .work-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
+    .work-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; }
+    .work-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; }
+
+    .work-thumb {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.6s ease;
+    }
+
+    .work-item:nth-child(1) .work-thumb { aspect-ratio: 16/9; }
+    .work-item:nth-child(2) .work-thumb { aspect-ratio: 4/5; }
+
+    .work-item:hover .work-thumb { transform: scale(1.04); }
+
+    /* Placeholder visual for each work item */
+    .work-thumb-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .work-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .work-placeholder svg {
+      opacity: 0.12;
+    }
+
+    .work-item-1 .work-thumb { background: linear-gradient(135deg, #1a1510 0%, #0d0d0d 100%); }
+    .work-item-2 .work-thumb { background: linear-gradient(135deg, #0f1218 0%, #0d0d0d 100%); }
+    .work-item-3 .work-thumb { background: linear-gradient(135deg, #13100c 0%, #0d0d0d 100%); }
+    .work-item-4 .work-thumb { background: linear-gradient(135deg, #0c1010 0%, #0d0d0d 100%); }
+    .work-item-5 .work-thumb { background: linear-gradient(135deg, #100f18 0%, #0d0d0d 100%); }
+
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .work-item:hover .work-overlay { opacity: 1; }
+
+    .work-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+
+    .work-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+
+    /* ABOUT */
+    #about {
+      padding: 7rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      aspect-ratio: 4/5;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .about-visual-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #1c1810 0%, #0d0d0d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-frame {
+      position: absolute;
+      top: 1.5rem; left: 1.5rem;
+      right: -1rem; bottom: -1rem;
+      border: 1px solid rgba(201,168,76,0.2);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .about-content { }
+
+    .about-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text strong {
+      color: var(--white);
+      font-weight: 400;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    /* SOCIALS */
+    #connect {
+      background: var(--dark);
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .connect-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .connect-text { }
+
+    .connect-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 4rem);
+      color: var(--white);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    .connect-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+    }
+
+    .socials-list {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1.5rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .social-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.04);
+    }
+
+    .social-icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* CONTACT */
+    #contact { padding: 7rem 4rem; }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+    }
+
+    .contact-info { }
+
+    .contact-tagline {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.8rem;
+      color: var(--light);
+      line-height: 1.4;
+      margin-bottom: 2rem;
+    }
+
+    .contact-detail {
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .contact-detail a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-detail a:hover { color: var(--gold); }
+
+    .contact-form { }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.9rem 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .form-submit:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .form-select {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.9rem 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .form-select:focus { border-color: var(--gold); }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { padding: 6rem 2rem 4rem; }
+      .section { padding: 5rem 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .work-item:nth-child(1),
+      .work-item:nth-child(2),
+      .work-item:nth-child(3),
+      .work-item:nth-child(4),
+      .work-item:nth-child(5) { grid-column: 1 / -1; grid-row: auto; }
+      .work-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .work-thumb { aspect-ratio: 16/9 !important; }
+      #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .connect-inner { flex-direction: column; align-items: flex-start; }
+      .socials-list { justify-content: flex-start; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      #connect { padding: 4rem 2rem; }
+      #contact { padding: 5rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo"><span class="logo-ji">Ji</span><span class="logo-m">m</span>edia</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-eyebrow">Media Production &amp; Creative Services</div>
+    <h1 class="hero-title">
+      <span class="logo-ji">Ji</span><span class="logo-m hero-m">m</span>edia
+    </h1>
+    <p class="hero-sub">
+      Film. Photography. Sound. From concert stages to scripted stories — we capture what matters and make it unforgettable.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Hire Us</a>
+      <a href="#work" class="btn-ghost">View Work</a>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item">Band Photography</div>
+      <div class="marquee-item">Film Production</div>
+      <div class="marquee-item">Live Event Coverage</div>
+      <div class="marquee-item">Script Writing</div>
+      <div class="marquee-item">Video Editing</div>
+      <div class="marquee-item">Media Production</div>
+      <div class="marquee-item">Creative Direction</div>
+      <div class="marquee-item">Band Photography</div>
+      <div class="marquee-item">Film Production</div>
+      <div class="marquee-item">Live Event Coverage</div>
+      <div class="marquee-item">Script Writing</div>
+      <div class="marquee-item">Video Editing</div>
+      <div class="marquee-item">Media Production</div>
+      <div class="marquee-item">Creative Direction</div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-name">Film & Video</div>
+        <p class="service-desc">Short films, music videos, documentaries, and branded content. From concept to final cut — we handle it all with a cinematic eye.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-name">Photography</div>
+        <p class="service-desc">Concert and live event photography, band press shots, promotional imagery, and editorial shoots that capture real energy.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-name">Editing & Post</div>
+        <p class="service-desc">Color grading, video editing, audio mixing, and post-production finishing that elevates raw footage into polished work.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-name">Script Writing</div>
+        <p class="service-desc">Narrative scripts, treatments, storyboards, and creative concepts for film, commercial, and digital content projects.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <div class="service-name">Media Production</div>
+        <p class="service-desc">Full-service production coordination — gear, crew, scheduling, and on-set direction for projects of any size.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <div class="service-name">Creative Direction</div>
+        <p class="service-desc">Visual identity, art direction, and creative consulting for artists and brands who need a distinct, cohesive aesthetic.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="section" style="padding-top:0;">
+    <div class="work-header">
+      <div>
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title" style="margin-bottom:0;">Selected Work</h2>
+      </div>
+      <a href="#contact" class="btn-ghost">Commission a project →</a>
+    </div>
+    <div class="work-grid">
+      <div class="work-item work-item-1">
+        <div class="work-thumb">
+          <div class="work-thumb-inner">
+            <div class="work-placeholder">
+              <!-- Film icon placeholder -->
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="18" width="64" height="44" rx="2" stroke="#c9a84c" stroke-width="1.5"/>
+                <rect x="8" y="18" width="12" height="8" stroke="#c9a84c" stroke-width="1.5"/>
+                <rect x="60" y="18" width="12" height="8" stroke="#c9a84c" stroke-width="1.5"/>
+                <rect x="8" y="54" width="12" height="8" stroke="#c9a84c" stroke-width="1.5"/>
+                <rect x="60" y="54" width="12" height="8" stroke="#c9a84c" stroke-width="1.5"/>
+                <circle cx="40" cy="40" r="10" stroke="#c9a84c" stroke-width="1.5"/>
+                <path d="M36 37l8 3-8 3V37z" fill="#c9a84c"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Music Video</div>
+          <div class="work-title">Add Your Project Title</div>
+        </div>
+      </div>
+      <div class="work-item work-item-2">
+        <div class="work-thumb">
+          <div class="work-thumb-inner">
+            <div class="work-placeholder">
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="6" width="48" height="48" rx="2" stroke="#c9a84c" stroke-width="1.5"/>
+                <circle cx="22" cy="22" r="6" stroke="#c9a84c" stroke-width="1.5"/>
+                <path d="M6 40l14-10 10 8 8-6 16 12" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Photography</div>
+          <div class="work-title">Add Your Project Title</div>
+        </div>
+      </div>
+      <div class="work-item work-item-3">
+        <div class="work-thumb">
+          <div class="work-thumb-inner">
+            <div class="work-placeholder">
+              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="25" cy="25" r="18" stroke="#c9a84c" stroke-width="1.5"/>
+                <circle cx="25" cy="25" r="6" stroke="#c9a84c" stroke-width="1.5"/>
+                <path d="M25 7v4M25 39v4M7 25h4M39 25h4" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Live Event</div>
+          <div class="work-title">Add Your Project Title</div>
+        </div>
+      </div>
+      <div class="work-item work-item-4">
+        <div class="work-thumb">
+          <div class="work-thumb-inner">
+            <div class="work-placeholder">
+              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 38V18l17-8 17 8v20l-17 8-17-8z" stroke="#c9a84c" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M8 18l17 8 17-8M25 26v12" stroke="#c9a84c" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Film</div>
+          <div class="work-title">Add Your Project Title</div>
+        </div>
+      </div>
+      <div class="work-item work-item-5">
+        <div class="work-thumb">
+          <div class="work-thumb-inner">
+            <div class="work-placeholder">
+              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="12" width="38" height="26" rx="2" stroke="#c9a84c" stroke-width="1.5"/>
+                <path d="M6 20h38M14 12v8M24 12v8M34 12v8M14 30h8M28 30h8M14 36h22" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="work-overlay">
+          <div class="work-label">Editing</div>
+          <div class="work-title">Add Your Project Title</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual">
+      <div class="about-visual-inner">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.15">
+          <rect x="10" y="28" width="100" height="64" rx="3" stroke="#c9a84c" stroke-width="1.5"/>
+          <rect x="10" y="28" width="20" height="12" stroke="#c9a84c" stroke-width="1.5"/>
+          <rect x="90" y="28" width="20" height="12" stroke="#c9a84c" stroke-width="1.5"/>
+          <rect x="10" y="80" width="20" height="12" stroke="#c9a84c" stroke-width="1.5"/>
+          <rect x="90" y="80" width="20" height="12" stroke="#c9a84c" stroke-width="1.5"/>
+          <circle cx="60" cy="60" r="18" stroke="#c9a84c" stroke-width="1.5"/>
+          <path d="M54 56l12 4-12 4V56z" fill="#c9a84c"/>
+        </svg>
+      </div>
+      <div class="about-frame"></div>
+    </div>
+    <div class="about-content">
+      <div class="section-label">About</div>
+      <h2 class="section-title" style="margin-bottom:1.5rem;">The Vision<br/>Behind the Lens</h2>
+      <p class="about-text">
+        Jimedia is an independent media production outfit built on a simple idea: <strong>great stories deserve great visuals.</strong> We work with bands, artists, and creative businesses to produce photography, film, and media that actually represents who they are.
+      </p>
+      <p class="about-text">
+        From the pit at a sold-out show to a quiet studio session — we bring the same level of craft and intention to every frame. <strong>No cookie-cutter packages. No corporate polish.</strong> Just honest, compelling work made with people who care about it.
+      </p>
+      <div class="about-stats">
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Frames Shot</div>
+        </div>
+        <div>
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Independent</div>
+        </div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">Vision</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIALS / CONNECT -->
+  <section id="connect">
+    <div class="connect-inner">
+      <div class="connect-text">
+        <h2 class="connect-title">Follow the Work</h2>
+        <p class="connect-sub">Stay up to date on projects, behind-the-scenes, and new releases.</p>
+      </div>
+      <div class="socials-list">
+        <!-- Instagram -->
+        <a href="#" class="social-link">
+          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+          Instagram
+        </a>
+        <!-- YouTube -->
+        <a href="#" class="social-link">
+          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+          </svg>
+          YouTube
+        </a>
+        <!-- TikTok -->
+        <a href="#" class="social-link">
+          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+          </svg>
+          TikTok
+        </a>
+        <!-- Vimeo -->
+        <a href="#" class="social-link">
+          <svg class="social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.977 6.416c-.105 2.338-1.739 5.543-4.894 9.609-3.268 4.247-6.026 6.37-8.29 6.37-1.409 0-2.578-1.294-3.553-3.881L5.322 12.4C4.603 9.813 3.834 8.516 3.01 8.516c-.179 0-.806.378-1.881 1.132L0 8.477c1.185-1.044 2.351-2.084 3.501-3.128C5.08 3.784 6.27 3.019 7.02 2.947c1.307-.13 2.135.76 2.467 2.665.331 1.979.572 3.184.679 3.568.376 1.732.797 2.595 1.258 2.595.353 0 .898-.551 1.618-1.662.72-1.111 1.109-1.952 1.145-2.505.088-1.009-.297-1.519-1.09-1.519-.39 0-.771.09-1.118.274 1.104-3.661 3.176-5.44 6.299-5.34 2.25.06 3.317 1.513 3.199 4.393z"/>
+          </svg>
+          Vimeo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <div class="section-label">Get in Touch</div>
+        <h2 class="section-title" style="margin-bottom:1.5rem;">Let's Make<br/>Something</h2>
+        <p class="contact-tagline">"Got a project, a vision, or just an idea? Let's talk about what we can build together."</p>
+        <p class="contact-detail">Email: <a href="mailto:hello@jimedia.com">hello@jimedia.com</a></p>
+        <p class="contact-detail">Based in: <span style="color:var(--text)">Your City, State</span></p>
+        <p class="contact-detail" style="margin-top:1.5rem; font-size:0.85rem; line-height:1.6;">
+          Available for local and travel-based projects. Typical response time within 48 hours.
+        </p>
+      </div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-input" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input type="text" class="form-input" placeholder="Last name" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Service</label>
+          <select class="form-select">
+            <option value="">What are you looking for?</option>
+            <option>Film / Video Production</option>
+            <option>Photography</option>
+            <option>Video Editing / Post</option>
+            <option>Script Writing</option>
+            <option>Media Production</option>
+            <option>Creative Direction</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell us about the project</label>
+          <textarea class="form-textarea" placeholder="What are you working on? Budget, timeline, vision — share what you've got."></textarea>
+        </div>
+        <button class="form-submit">Send Message</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><span class="logo-ji">Ji</span><span class="logo-m">m</span>edia</div>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 Jimedia. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
